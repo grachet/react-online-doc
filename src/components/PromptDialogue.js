@@ -11,9 +11,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import {Select as SelectMUI, TextField as TextFieldMUI} from 'formik-material-ui';
+import styles from "../styles/modalStyle"
+import {withStyles} from "@material-ui/core";
 
 
-export default class FormDialog extends React.Component {
+class FormDialog extends React.Component {
 
   onOk = () => {
     this.refForm.submitForm()
@@ -21,26 +23,32 @@ export default class FormDialog extends React.Component {
 
   getValidationSchema = (fields) =>
     fields.reduce((obj, item) => {
-      let sch = item.validationSchema;
-      if (sch) {
-        obj[item.name] = Yup;
-        for (let verif of sch) {
-          obj[item.name] = !verif.name ?
-            obj[item.name][verif]()
-            :
-            obj[item.name][verif.name](...verif.arguments)
-        }
+      let yup = item.yup;
+      if (yup) {
+        obj[item.name] = yup;
       }
       return obj
     }, {})
 
+
+  getInitialValues = (fields) =>
+    fields.reduce((obj, item) => {
+      let ch = item.choice;
+      if (ch) {
+        obj[item.name] = item.defaultLast ? ch[ch.length - 1] : ch[0];
+      }
+      return obj
+    }, {})
+
+
   render() {
 
-    const {textfield, selectfield} = this.props;
+    const {textfield, selectfield, defaultValue} = this.props;
 
 
     let fields = (textfield && selectfield && textfield.concat(selectfield)) || selectfield || textfield
     const validationSchema = fields && this.getValidationSchema(fields);
+    const initialValues = fields && this.getInitialValues(fields);
     return (
       <div>
         <Dialog
@@ -60,9 +68,10 @@ export default class FormDialog extends React.Component {
               validateOnBlur={true}
               validateOnChange={false}
               enableReinitialize
+              initialValues={{...initialValues, ...defaultValue}}
               ref={ref => this.refForm = ref}
               onSubmit={(values, {setSubmitting}) => {
-                this.props.onCancel();
+                !this.props.disableCancelOnOK && this.props.onCancel();
                 this.props.onOk(values);
                 setSubmitting(false);
               }}
@@ -75,7 +84,7 @@ export default class FormDialog extends React.Component {
                   {
                     this.props.textfield && this.props.textfield.map(field => <Field
                         key={field.name}
-                        required={field.validationSchema && field.validationSchema.indexOf("required") !== -1}
+                        required={field.required}
                         margin="normal"
                         fullWidth
                         name={field.name}
@@ -87,10 +96,11 @@ export default class FormDialog extends React.Component {
                   {this.props.selectfield && this.props.selectfield.map(field => <FormControl
                       margin={"normal"}
                       key={field.name}
-                      style={{minWidth: "100%", marginTop: 15}}>
+                      className={this.props.classes.promptFormControl}
+                    >
                       <InputLabel
-                        shrink={values[field.name]}
-                        required={field.validationSchema && field.validationSchema.indexOf("required") !== -1}
+                        shrink={values[field.name] || values[field.name] === 0}
+                        required={field.required}
                         htmlFor={field.name}>{field.title || field.name}
                       </InputLabel>
                       <Field
@@ -108,9 +118,13 @@ export default class FormDialog extends React.Component {
                         }}
                         component={SelectMUI}
                       >
-                        {field.values.map((value, index) =>
-                          <MenuItem key={value}
-                                    value={value}>{field.titleValues ? field.titleValues[index] : value}</MenuItem>)
+                        {field.choice.map((value, index) =>
+                          <MenuItem
+                            key={value}
+                            value={value}>
+                            {field.titleChoice ? field.titleChoice[index] : value}
+                          </MenuItem>
+                        )
                         }
                       </Field>
                     </FormControl>
@@ -135,3 +149,6 @@ export default class FormDialog extends React.Component {
     );
   }
 }
+
+
+export default withStyles(styles)(FormDialog);
