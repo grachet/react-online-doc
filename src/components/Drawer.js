@@ -6,6 +6,7 @@ import {withStyles} from "@material-ui/core";
 const styles = theme => ({
   drawer: {
     width: drawerWidth,
+    flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,

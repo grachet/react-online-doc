@@ -1,10 +1,10 @@
 import user from "./user";
-import projects from "./projects";
+import documentation from "./documentation";
 import users from "./users";
 import {combineReducers} from 'redux';
 
 export default combineReducers({
   user,
   users,
-  projects
+  documentation
 });

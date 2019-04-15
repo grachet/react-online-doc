@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {fetchUser, fetchUsers} from "../redux/actions/user";
 import {bindActionCreators} from "redux";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import {fetchProjects} from "../redux/actions/projects";
+import {fetchDocumentation} from "../redux/actions/documentation";
 import {color} from '../data/color'
 import requireAuth from "../containers/requireAuth";
 import SignIn from "../containers/SignIn"
@@ -17,6 +17,7 @@ class App extends Component {
 
 
   componentWillMount() {
+    this.props.fetchDocumentation();
     this.props.fetchUser();
     this.props.fetchUsers();
   }
@@ -72,7 +73,7 @@ const mapStateToProps = ({user}) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchUser, fetchProjects, fetchUsers
+  fetchUser, fetchDocumentation, fetchUsers
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import {Link, withRouter} from "react-router-dom";
 import LightIcon from '@material-ui/icons/Opacity';
+import classNames from 'classnames';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LibIcon from '@material-ui/icons/Book';
 import EditIcon from '@material-ui/icons/Edit';
@@ -17,6 +18,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import styles from "./styles/navStyle";
 import AlertDialogue from "../components/AlertDialogue";
+import MenuIcon from "@material-ui/icons/Menu";
+import CloseMenuIcon from "@material-ui/icons/Close";
 
 
 class MenuAppBar extends React.Component {
@@ -26,13 +29,22 @@ class MenuAppBar extends React.Component {
   }
 
   render() {
-    const {classes, user} = this.props;
+    const {classes, user, open,toggleDrawer} = this.props;
 
     return (
 
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-
+      <AppBar position="fixed"
+              className={classes.appBar}
+      >
+        <Toolbar disableGutters={true}>
+          <IconButton
+            color="inherit"
+            aria-label="Open drawer"
+            onClick={toggleDrawer}
+            className={classes.mlmd}
+          >
+            {open ? <CloseMenuIcon/> : <MenuIcon/>}
+          </IconButton>
           <IconButton
             color="inherit"
             onClick={() => this.props.history.push("/")}
@@ -108,10 +120,10 @@ MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = ({user, projects}) => {
+const mapStateToProps = ({user, documentation}) => {
   return {
     user,
-    projects: projects
+    documentation
   };
 }
 

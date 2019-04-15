@@ -1,14 +1,11 @@
 import {FETCH_USER, FETCH_USERS, TOGGLE_THEME} from './action.types'
 import {
   authRef,
-  EmailProvider,
   FacebookProvider,
   GithubProvider,
   GoogleProvider,
   usersRef
 } from "../../config/firebase";
-
-import {fetchProjects} from './projects'
 import * as firebase from "firebase";
 
 
@@ -21,7 +18,6 @@ export function toggleTheme() {
 export const fetchUser = () => dispatch => {
   authRef.onAuthStateChanged(user => {
     if (user) {
-      dispatch(fetchProjects(user.uid));
       dispatch({
         type: FETCH_USER,
         payload: user
