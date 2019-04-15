@@ -13,7 +13,7 @@ import styles from './styles/homeStyle'
 
 class Edit extends React.Component {
   state = {
-    open: false,
+    open: true,
   };
 
   toggleDrawer = () => {
