@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import {Link, withRouter} from "react-router-dom";
 import LightIcon from '@material-ui/icons/Opacity';
-import classNames from 'classnames';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LibIcon from '@material-ui/icons/Book';
 import EditIcon from '@material-ui/icons/Edit';
@@ -29,7 +28,7 @@ class MenuAppBar extends React.Component {
   }
 
   render() {
-    const {classes, user, open,toggleDrawer} = this.props;
+    const {classes, user, open, toggleDrawer} = this.props;
 
     return (
 

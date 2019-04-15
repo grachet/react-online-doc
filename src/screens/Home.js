@@ -9,38 +9,7 @@ import Drawer from "../components/Drawer";
 import {fetchDocumentation, updateDocumentation} from "../redux/actions/documentation";
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
-
-const drawerWidth = 240;
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-});
+import styles from './styles/homeStyle'
 
 class Home extends React.Component {
   state = {
@@ -52,7 +21,7 @@ class Home extends React.Component {
   };
 
   render() {
-    const {classes, theme} = this.props;
+    const {classes,documentation} = this.props;
     const {open} = this.state;
 
     return (
@@ -66,6 +35,10 @@ class Home extends React.Component {
           })}
         >
           <div className={classes.drawerHeader}/>
+
+          <div>{JSON.stringify(documentation)}</div>
+
+          <button onClick={() => this.props.updateDocumentation({test: true})}>test</button>
           <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent
