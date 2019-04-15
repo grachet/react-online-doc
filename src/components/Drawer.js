@@ -17,18 +17,19 @@ const styles = theme => ({
 class DrawerNav extends Component {
 
   render() {
-    const {classes} = this.props;
+    const {classes,open} = this.props;
     return (
       <Drawer
         className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
         classes={{
           paper: classes.drawerPaper,
         }}
-        open
-        anchor={"left"}
-        variant="permanent"
       >
         <div className={classes.toolbar}/>
+        {open}
       </Drawer>
     );
   }
