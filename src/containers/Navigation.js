@@ -18,7 +18,7 @@ import {bindActionCreators} from "redux";
 import styles from "./styles/navStyle";
 import AlertDialogue from "../components/AlertDialogue";
 import MenuIcon from "@material-ui/icons/Menu";
-import CloseMenuIcon from "@material-ui/icons/Close";
+import CloseMenuIcon from "@material-ui/icons/ArrowBack";
 
 
 class MenuAppBar extends React.Component {
@@ -70,17 +70,17 @@ class MenuAppBar extends React.Component {
           </Typography>
 
 
-          {user && [<Typography key={1} variant="subheading" color="inherit">
+          {user && <Typography key={1} variant="subheading" color="inherit">
             {user.isAnonymous ? "Anonymous" : user.displayName}
-          </Typography>,
+          </Typography>}
 
             <IconButton
               key={2}
               color="inherit"
-              onClick={() => this.setState({openAlert: true})}
+              onClick={() => user && user.displayName ? this.setState({openAlert: true}) : this.props.history.push("/auth")}
             >
               <AccountCircle/>
-            </IconButton>]}
+            </IconButton>
 
           <IconButton
             color="inherit"

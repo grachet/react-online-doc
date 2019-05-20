@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Navigation from "../containers/Navigation";
 import Drawer from "../components/Drawer";
-import {fetchDocumentation, updateDocumentation} from "../redux/actions/documentation";
+import {fetchDocumentation, updateDocumentation,removeDocumentation} from "../redux/actions/documentation";
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
 import styles from './styles/homeStyle'
@@ -39,6 +39,10 @@ class Home extends React.Component {
           <div>{JSON.stringify(documentation)}</div>
 
           <button onClick={() => this.props.updateDocumentation({test: true})}>test</button>
+          <button onClick={() => this.props.removeDocumentation()}>remove</button>
+          <button onClick={() => this.props.fetchDocumentation()}>fetch</button>
+
+
           <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent
@@ -81,7 +85,7 @@ const mapStateToProps = ({user, documentation, users}) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchDocumentation, updateDocumentation
+  fetchDocumentation, updateDocumentation,removeDocumentation
 }, dispatch);
 
 export default withStyles(styles, {withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(Home));

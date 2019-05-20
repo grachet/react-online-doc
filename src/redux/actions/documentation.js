@@ -3,8 +3,8 @@ import * as firebase from "firebase";
 
 import {documentationRef} from "../../config/firebase";
 
-export const removeDocumentation = removeDocumentationId => async dispatch => {
-  documentationRef.child(removeDocumentationId).remove();
+export const removeDocumentation = () => async dispatch => {
+  documentationRef.remove();
 };
 
 export const fetchDocumentation = () => async dispatch => {
@@ -16,7 +16,7 @@ export const fetchDocumentation = () => async dispatch => {
   });
 };
 
-export const updateDocumentation = (documentation, documentationId) => async dispatch => {
+export const updateDocumentation = (documentation) => async dispatch => {
   firebase.database().ref('documentation').set(documentation);
 };
 
