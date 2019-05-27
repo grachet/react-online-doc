@@ -7,7 +7,6 @@ import {connect} from "react-redux";
 import ListIcon from '@material-ui/icons/List';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import IconButton from "@material-ui/core/IconButton";
 
 const styles = theme => ({
   drawer: {
@@ -22,30 +21,24 @@ const styles = theme => ({
 
 class DrawerNav extends Component {
 
-  state = {
-
-  }
-
-
   renderNavList = () => {
 
-    const {sid,id} = this.props.match.params;
+    const {sid, id} = this.props.match.params;
 
     const {documentation} = this.props;
     if (!documentation) return null;
     let doc = documentation[documentation.length - 1].documentation;
 
-    console.log("doc", doc,sid,id);
+    console.log("doc", doc, sid, id);
 
     return (
       <List
         dense
       >
-
         {
           doc.map((section, sectionIndex) => <div key={sectionIndex}>
               <ListItem button
-                        onClick={() => this.props.history.push("/"+section.id+"/"+id)}
+                        onClick={() => this.props.history.push("/" + section.id + "/" + id)}
               >
                 <ListItemIcon>
                   <ListIcon/>
@@ -63,7 +56,7 @@ class DrawerNav extends Component {
                     section.pages.map((page, index) => <ListItem
                         key={index}
                         selected={page.title === index}
-                        onClick={() => this.props.history.push("/"+section.id+"/"+page.title)}
+                        onClick={() => this.props.history.push("/" + section.id + "/" + page.title)}
                         button
                       >
                         <ListItemText inset primary={page.title}/>
