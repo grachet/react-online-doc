@@ -66,7 +66,7 @@ class MenuAppBar extends React.Component {
 
 
           <Typography variant="title" color="inherit" className={classes.title}>
-            {this.props.title}
+            {this.props.match.params.id}
           </Typography>
 
 

@@ -12,6 +12,7 @@ export default theme => createStyles({
   title: {
     textDecoration: 'none',
     flexGrow: 1,
+    textAlign:"center"
   },
   search: {
     position: 'relative',
