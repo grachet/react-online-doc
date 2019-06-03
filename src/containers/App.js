@@ -53,10 +53,11 @@ class App extends Component {
         <CssBaseline/>
         <Router basename={`${process.env.PUBLIC_URL}/`}>
           <Switch>
-            <Route path="/:sid/:id" component={Home}/>
+
             <Route path="/auth" component={SignIn}/>
-            <Route path='/edit' component={requireAuth(Edit)}/>
-            <Route path='/edit/:sid/:id' component={requireAuth(Edit)}/>
+            <Route exact path='/edit' component={requireAuth(Edit)}/>
+            <Route  path='/edit/:sid/:id' component={requireAuth(Edit)}/>
+            <Route  path="/:sid/:id" component={Home}/>
             <Route component={Home}/>
           </Switch>
         </Router>

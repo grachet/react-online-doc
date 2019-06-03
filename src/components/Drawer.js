@@ -29,7 +29,7 @@ class DrawerNav extends Component {
     if (!documentation) return null;
     let doc = documentation[documentation.length - 1].documentation;
 
-    console.log("doc", doc, sid, id);
+    let withIfEdit = this.props.match.url.indexOf("/edit") === 0 ? "/edit/" : "/";
 
     return (
       <List
@@ -38,7 +38,7 @@ class DrawerNav extends Component {
         {
           doc.map((section, sectionIndex) => <div key={sectionIndex}>
               <ListItem button
-                        onClick={() => this.props.history.push("/" + section.id + "/" + id)}
+                        onClick={() => this.props.history.push(withIfEdit + section.id + "/" + "Doc")}
               >
                 <ListItemIcon>
                   <ListIcon/>
@@ -56,7 +56,7 @@ class DrawerNav extends Component {
                     section.pages.map((page, index) => <ListItem
                         key={index}
                         selected={page.title === index}
-                        onClick={() => this.props.history.push("/" + section.id + "/" + page.title)}
+                        onClick={() => this.props.history.push(withIfEdit + section.id + "/" + page.title)}
                         button
                       >
                         <ListItemText inset primary={page.title}/>

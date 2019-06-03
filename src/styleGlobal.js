@@ -4,7 +4,7 @@ const spacing = () => {
   let spacingConst = {};
   ["margin", "padding"].forEach(type => {
 
-    let sizes = ["s", "sm", "md", "l", "xl", "xxl", "xxxl"];
+    let sizes = ["s", "sm", "md", "l", "xl", "xxl", "xxxl","xxxxl"];
     let sides = ["Left", "Right", "Top", "Bottom"];
 
     //ms...

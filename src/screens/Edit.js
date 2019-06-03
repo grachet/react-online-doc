@@ -130,7 +130,7 @@ class Edit extends React.Component {
       >
         {({values, resetForm, submitForm}) => (
           <Form>
-            <div className={classes.mtxxxl}>
+            <div className={classNames(classes.mtxxxxl,classes.mbs)}>
               <Tooltip
                 title={"In this mode you can edit" + (editDrawer ? " the left navigation drawer" : " all the documentation")}
                 placement="right">
@@ -138,23 +138,23 @@ class Edit extends React.Component {
                   label={editDrawer ? "Edit Navigation" : "Edit Mode"}
                   variant={"default"}
                   color={"default"}
-                  className={classNames(classes.mbmd, classes.mrmd)}
+                  className={classNames(classes.mrmd)}
                 />
               </Tooltip>
 
               {editDrawer &&
               <span>
                 <Button onClick={() => this.setState({openPrompt: "add"})}
-                        className={classNames(classes.mrmd, classes.mbmd)} variant={"contained"} color="primary">
+                        className={classNames(classes.mrmd)} variant={"contained"} color="primary">
               Add Category
                 </Button>
-                <Button className={classes.mbmd} onClick={() => this.setState({openPrompt: "remove"})} color="primary">
+                <Button onClick={() => this.setState({openPrompt: "remove"})} color="primary">
               Remove Category
                 </Button>
               </span>}
             </div>
 
-            {!editDrawer && <ObjectField paper field={{
+            {!editDrawer && doc && <ObjectField paper field={{
               noBorder: true,
               subfields: subfieldsDescription,
               path: ["doc"],
