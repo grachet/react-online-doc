@@ -24,40 +24,39 @@ class App extends Component {
 
   render() {
 
-    const darkTheme = createMuiTheme({
-      palette: {
-        type: 'dark',
-        primary: {
-          main: color.containerBackground,
-        },
-        secondary: {
-          main: color.accent,
-        },
-      },
-    })
-
-    const lightTheme = createMuiTheme({
-      palette: {
-        type: "light",
-        primary: {
-          main: color.containerBackground,
-        },
-        secondary: {
-          main: color.accent,
-        },
-
-      },
-    });
-
-
     return (
-      <MuiThemeProvider theme={this.props.user && this.props.user.darkTheme ? darkTheme : lightTheme}>
+      <MuiThemeProvider
+        theme={createMuiTheme({
+          typography: {
+            useNextVariants: true,
+          },
+          spacing: {
+            unit: 6
+          },
+          palette: (this.props.user && this.props.user.darkTheme) ? {
+            type: 'dark',
+            primary: {
+              main: color.containerBackground,
+            },
+            secondary: {
+              main: color.accent,
+            },
+          } : {
+            primary: {
+              main: color.containerBackground,
+            },
+            secondary: {
+              main: color.accent,
+            },
+          },
+        })}>
         <CssBaseline/>
         <Router basename={`${process.env.PUBLIC_URL}/`}>
           <Switch>
             <Route path="/:sid/:id" component={Home}/>
             <Route path="/auth" component={SignIn}/>
             <Route path='/edit' component={requireAuth(Edit)}/>
+            <Route path='/edit/:sid/:id' component={requireAuth(Edit)}/>
             <Route component={Home}/>
           </Switch>
         </Router>

@@ -16,7 +16,7 @@ class Signin extends Component {
 
   componentWillUpdate(nextProps) {
     if (nextProps.user && nextProps.user !== "notConnected") {
-      this.props.history.push('/')
+      this.props.history.push('/edit')
     }
   }
 

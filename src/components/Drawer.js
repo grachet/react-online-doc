@@ -103,4 +103,4 @@ const mapStateToProps = ({user, documentation}) => {
   };
 }
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps)(DrawerNav)));
+export default withRouter(withStyles(styles, {withTheme: true})(connect(mapStateToProps)(DrawerNav)));

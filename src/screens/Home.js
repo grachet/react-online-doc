@@ -30,9 +30,9 @@ class Home extends React.Component {
     const {classes, documentation} = this.props;
 
     if (!documentation) return null
-    const {docs} = getDocIndex(this.props);
+    const {doc} = getDocIndex(this.props);
     return (
-      docs && docs.map((panel, index) => <ExpansionPanel key={index}
+      doc && doc.map((panel, index) => <ExpansionPanel key={index}
                                                                 onChange={() => panel => (event, expanded) => {
                                                                   this.setState({
                                                                     expandedDoc: expanded ? panel : false,

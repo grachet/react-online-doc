@@ -39,4 +39,4 @@ export default theme => createStyles(
       marginLeft: 0,
     },
   }
-);
+,theme);

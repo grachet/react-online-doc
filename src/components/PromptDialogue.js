@@ -11,8 +11,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import {Select as SelectMUI, TextField as TextFieldMUI} from 'formik-material-ui';
-import styles from "../styles/modalStyle"
+import styles from "./styles/modalStyle.js"
 import {withStyles} from "@material-ui/core";
+import connect from "react-redux/es/connect/connect";
 
 
 class FormDialog extends React.Component {
@@ -36,6 +37,8 @@ class FormDialog extends React.Component {
       let ch = item.choice;
       if (ch) {
         obj[item.name] = item.defaultLast ? ch[ch.length - 1] : ch[0];
+      } else {
+        obj[item.name] = "";
       }
       return obj
     }, {})
@@ -43,7 +46,7 @@ class FormDialog extends React.Component {
 
   render() {
 
-    const {textfield, selectfield, defaultValue} = this.props;
+    const {textfield, selectfield, defaultValue, component} = this.props;
 
 
     let fields = (textfield && selectfield && textfield.concat(selectfield)) || selectfield || textfield
@@ -52,6 +55,8 @@ class FormDialog extends React.Component {
     return (
       <div>
         <Dialog
+          fullWidth
+          maxWidth={"sm"}
           open={this.props.open}
           onClose={this.props.onCancel}
           aria-labelledby="form-dialog-title"
@@ -79,13 +84,18 @@ class FormDialog extends React.Component {
                 validationSchema
               )}
             >
-              {({values}) => (
+              {({values, setFieldValue}) => (
                 <Form>
+                  {component}
+                  {/*    //todo      {fields.map((field, i) => <FieldGen key={i}
+                                                      setFieldValue={setFieldValue}
+                                                      field={addValues(field, values)}/>)
+                  }*/}
                   {
                     this.props.textfield && this.props.textfield.map(field => <Field
                         key={field.name}
                         required={field.required}
-                        margin="normal"
+                        margin={"dense"}
                         fullWidth
                         name={field.name}
                         label={field.title}
@@ -94,12 +104,12 @@ class FormDialog extends React.Component {
                     )
                   }
                   {this.props.selectfield && this.props.selectfield.map(field => <FormControl
-                      margin={"normal"}
+                      margin={"dense"}
                       key={field.name}
                       className={this.props.classes.promptFormControl}
                     >
                       <InputLabel
-                        shrink={values[field.name] || values[field.name] === 0}
+                        shrink={!!values[field.name] || values[field.name] === 0}
                         required={field.required}
                         htmlFor={field.name}>{field.title || field.name}
                       </InputLabel>
@@ -150,5 +160,10 @@ class FormDialog extends React.Component {
   }
 }
 
+const mapStateToProps = ({user}) => {
+  return {
+    user
+  };
+}
 
-export default withStyles(styles)(FormDialog);
+export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(FormDialog));

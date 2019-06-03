@@ -130,4 +130,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   toggleTheme, signOut
 }, dispatch);
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MenuAppBar)));
+export default withRouter(withStyles(styles, {withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(MenuAppBar)));
