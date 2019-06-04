@@ -10,7 +10,6 @@ import LibIcon from '@material-ui/icons/Book';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from 'prop-types';
 import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 import {withStyles} from '@material-ui/core/styles';
 import {signOut, toggleTheme} from "../redux/actions/user"
 import {connect} from 'react-redux';
@@ -19,6 +18,8 @@ import styles from "./styles/navStyle";
 import AlertDialogue from "../components/AlertDialogue";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseMenuIcon from "@material-ui/icons/ArrowBack";
+import SuggestField from "../components/SuggestField"
+import {getDocIndex} from "../data/helperFunctions";
 
 
 class MenuAppBar extends React.Component {
@@ -28,7 +29,20 @@ class MenuAppBar extends React.Component {
   }
 
   render() {
-    const {classes, user, open, toggleDrawer} = this.props;
+    const {classes, documentation, user, open, toggleDrawer} = this.props;
+
+    const {docs} = getDocIndex(this.props);
+
+    let withIfEdit = this.props.match.url.indexOf("/edit") === 0 ? "/edit/" : "/";
+
+    let pageSuggestData = [];
+    docs && docs.forEach((cat, i) => {
+      cat.pages && cat.pages.forEach((page, i) => {
+        pageSuggestData.push({label: page.title, value: withIfEdit + cat.titleSection + "/" + page.title})
+      })
+    })
+
+    console.log("pageSuggestData", pageSuggestData);
 
     return (
 
@@ -55,12 +69,11 @@ class MenuAppBar extends React.Component {
             <div className={classes.searchIcon}>
               <SearchIcon/>
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
+            <SuggestField
+              setValue={(selectedUrl) => this.props.history.push(selectedUrl)}
+              data={pageSuggestData}
+              placeholder={"Search…"}
+              numberSuggestionsMax={8}
             />
           </div>
 
@@ -74,13 +87,13 @@ class MenuAppBar extends React.Component {
             {user.isAnonymous ? "Anonymous" : user.displayName}
           </Typography>}
 
-            <IconButton
-              key={2}
-              color="inherit"
-              onClick={() => user && user.displayName ? this.setState({openAlert: true}) : this.props.history.push("/auth")}
-            >
-              <AccountCircle/>
-            </IconButton>
+          <IconButton
+            key={2}
+            color="inherit"
+            onClick={() => user && user.displayName ? this.setState({openAlert: true}) : this.props.history.push("/auth")}
+          >
+            <AccountCircle/>
+          </IconButton>
 
           <IconButton
             color="inherit"

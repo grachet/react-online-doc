@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import {withStyles} from '@material-ui/core/styles';
+import InputBase from "@material-ui/core/InputBase";
 
 function renderInputComponent(inputProps) {
   const {
@@ -13,10 +14,13 @@ function renderInputComponent(inputProps) {
     }, ref, ...other
   } = inputProps;
 
-  return (
-    <TextField
-      autoFocus
-      fullWidth
+
+    return <InputBase
+      placeholder="Search…"
+      classes={{
+        root: classes.inputRoot,
+        input: classes.inputInput,
+      }}
       InputProps={{
         inputRef: node => {
           ref(node);
@@ -28,7 +32,24 @@ function renderInputComponent(inputProps) {
       }}
       {...other}
     />
-  );
+
+
+  // return (
+  //   <TextField
+  //     autoFocus
+  //     fullWidth
+  //     InputProps={{
+  //       inputRef: node => {
+  //         ref(node);
+  //         inputRef(node);
+  //       },
+  //       classes: {
+  //         input: classes.input,
+  //       },
+  //     }}
+  //     {...other}
+  //   />
+  // );
 }
 
 function escapeRegexCharacters(str) {
@@ -88,6 +109,19 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
   },
+  searchIcon: {
+    width: theme.spacing.unit * 9,
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+    width: '100%',
+  },
   container: {
     position: 'relative',
   },
@@ -100,6 +134,20 @@ const styles = theme => ({
   },
   suggestion: {
     display: 'block',
+  },
+  inputInput: {
+    paddingTop: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 10,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: 120,
+      '&:focus': {
+        width: 200,
+      },
+    },
   },
   suggestionsList: {
     margin: 0,

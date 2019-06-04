@@ -1,6 +1,7 @@
 export const getDocIndex = (props) => {
   const {sid, id} = props.match.params;
   const {documentation} = props;
+  if (!documentation) return {};
   let docs = documentation[documentation.length - 1].documentation;
   let result = {docs}
   docs.forEach((section, si) => {
