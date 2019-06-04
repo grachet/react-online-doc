@@ -4,8 +4,8 @@ export const getDocIndex = (props) => {
   let docs = documentation[documentation.length - 1].documentation;
   let result = {docs}
   docs.forEach((section, si) => {
-    if (section.id === sid) {
-      section.pages.map((page, pi) => {
+    if (section.titleSection === sid) {
+      section.pages && section.pages.map((page, pi) => {
         if (page.title === id) {
           result = {docs, si, pi, doc: page.doc}
         }

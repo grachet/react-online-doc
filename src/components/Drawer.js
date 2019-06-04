@@ -38,25 +38,25 @@ class DrawerNav extends Component {
         {
           doc.map((section, sectionIndex) => <div key={sectionIndex}>
               <ListItem button
-                        onClick={() => this.props.history.push(withIfEdit + section.id + "/" + "Doc")}
+                        onClick={() => this.props.history.push(withIfEdit + section.titleSection + "/" + "Doc")}
               >
                 <ListItemIcon>
                   <ListIcon/>
                 </ListItemIcon>
                 <ListItemText inset primary={section.titleSection}/>
-                {sid === section.id ? <ExpandLess/> : <ExpandMore/>}
+                {sid === section.titleSection ? <ExpandLess/> : <ExpandMore/>}
               </ListItem>
 
-              {sid === section.id && !!section.pages.length &&
+              {sid === section.titleSection && section.pages && !!section.pages.length &&
               <Divider/>}
-              <Collapse in={sid === section.id} timeout="auto"
+              <Collapse in={sid === section.titleSection} timeout="auto"
                         unmountOnExit>
                 <List component="div" dense disablePadding>
                   {
-                    section.pages.map((page, index) => <ListItem
+                    section.pages && section.pages.map((page, index) => <ListItem
                         key={index}
                         selected={page.title === index}
-                        onClick={() => this.props.history.push(withIfEdit + section.id + "/" + page.title)}
+                        onClick={() => this.props.history.push(withIfEdit + section.titleSection + "/" + page.title)}
                         button
                       >
                         <ListItemText inset primary={page.title}/>

@@ -9,6 +9,7 @@ import {sendNotification} from "../redux/actions/notifications";
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
 import {Typography, withStyles} from "@material-ui/core";
+import * as Yup from "yup";
 import {getDocIndex} from "../data/helperFunctions";
 import {Form, Formik} from "formik";
 import styles from './styles/editStyle'
@@ -91,6 +92,41 @@ class Edit extends React.Component {
     });
   }
 
+  renameSection = (values) => {
+    // let name = values.titleSection;
+    // const {documentation, updateDocumentation} = this.props;
+    // let oldName = documentation.nav[this.state.sectionIndexRename].titleSection
+    // let newDoc = {...documentation};
+    // newDoc.nav[this.state.sectionIndexRename].titleSection = name;
+    // updateDocumentation(newDoc);
+    // this.props.sendNotification({
+    //   message: "Rename « " + oldName + " » to « " + name + " »",
+    //   options: {
+    //     variant: 'default',
+    //   },
+    // });
+  }
+
+  addSection = (values) => {
+    const {updateDocumentation} = this.props;
+    const {titleSection, place} = values;
+    const {docs} = getDocIndex(this.props);
+    let newDocs = [...docs];
+    newDocs.splice(place + 1, 0, {
+      titleSection: titleSection,
+      pages: []
+    });
+    updateDocumentation(newDocs);
+  }
+
+  removeSection = (values) => {
+    const {updateDocumentation} = this.props;
+    const {docs} = getDocIndex(this.props);
+    let newDocs = [...docs];
+    newDocs.splice(values.sectionIndex, 1);
+    updateDocumentation(newDocs);
+  }
+
 
   renderEdit = () => {
     const {classes, documentation} = this.props;
@@ -136,42 +172,42 @@ class Edit extends React.Component {
     }
 
     let promptTextFields, promptSelectFields, promptTitle
-    //
-    // let addSectionChoices = nav.map(section => "after «" + section.titleSection + "»");
-    // let sectionsName = nav.map(section => section.titleSection);
-    // let sectionIndex = nav.map((section, index) => index);
-    //
-    // if (openPrompt === "rename") {
-    //   promptTitle = "Rename category"
-    //   promptTextFields = [{
-    //     title: "Name", required: true, name: "titleSection"
-    //   }]
-    // } else if (openPrompt === "add") {
-    //   promptTitle = "Add category"
-    //   promptSelectFields = [
-    //     {
-    //       title: "Place",
-    //       name: "place",
-    //       yup: Yup.string().required(),
-    //       required: true,
-    //       choice: [-1, nav.length - 1, ...sectionIndex],
-    //       titleChoice: ["first", "last", ...addSectionChoices]
-    //     }]
-    //   promptTextFields = [{
-    //     title: "Name", required: true, name: "titleSection"
-    //   }]
-    // } else if (openPrompt === "remove") {
-    //   promptTitle = "Remove category"
-    //   promptSelectFields = [
-    //     {
-    //       title: "Name",
-    //       name: "sectionIndex",
-    //       yup: Yup.string().required(),
-    //       required: true,
-    //       choice: [...sectionIndex],
-    //       titleChoice: [...sectionsName]
-    //     }]
-    // }
+
+    let addSectionChoices = docs.map(section => "after «" + section.titleSection + "»");
+    let sectionsName = docs.map(section => section.titleSection);
+    let sectionIndex = docs.map((section, index) => index);
+
+    if (openPrompt === "rename") {
+      promptTitle = "Rename category"
+      promptTextFields = [{
+        title: "Name", required: true, name: "titleSection"
+      }]
+    } else if (openPrompt === "add") {
+      promptTitle = "Add category"
+      promptSelectFields = [
+        {
+          title: "Place",
+          name: "place",
+          yup: Yup.string().required(),
+          required: true,
+          choice: [-1, docs.length - 1, ...sectionIndex],
+          titleChoice: ["first", "last", ...addSectionChoices]
+        }]
+      promptTextFields = [{
+        title: "Name", required: true, name: "titleSection"
+      }]
+    } else if (openPrompt === "remove") {
+      promptTitle = "Remove category"
+      promptSelectFields = [
+        {
+          title: "Name",
+          name: "sectionIndex",
+          yup: Yup.string().required(),
+          required: true,
+          choice: [...sectionIndex],
+          titleChoice: [...sectionsName]
+        }]
+    }
 
 
     return (
