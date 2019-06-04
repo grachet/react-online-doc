@@ -86,7 +86,7 @@ export default theme => createStyles({
     padding: theme.spacing.unit * 4,
   },
   buttonHint: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: 3 * 4,
     marginLeft: theme.spacing.unit * 2,
     display: "inline-block"
   },

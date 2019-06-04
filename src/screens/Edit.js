@@ -10,6 +10,7 @@ import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
 import {Typography, withStyles} from "@material-ui/core";
 import * as Yup from "yup";
+import ArrayField from "../components/ArrayField"
 import {getDocIndex} from "../data/helperFunctions";
 import {Form, Formik} from "formik";
 import styles from './styles/editStyle'
@@ -63,31 +64,32 @@ class Edit extends React.Component {
 
   submitNav = (values) => {
     const {updateDocumentation} = this.props;
+    const {docs} = getDocIndex(this.props);
+    let newDocs = [...docs];
 
     console.log("values", values);
 
-    // let newDoc = {...documentation, quickNav: values.quickNav};
-    // newDoc.quickNav = newDoc.quickNav.map(item => {
-    //   return {doc: [], ...item}
-    // })
-    //
-    // let keys = Object.keys(values)
-    // keys.splice(Object.keys(values).indexOf("quickNav"), 1);
-    //
-    // keys.forEach((key, catIndex) => {
-    //   if (newDoc.nav[catIndex]) {
-    //     newDoc.nav[catIndex].pages = values["nav" + catIndex]
-    //     newDoc.nav[catIndex].pages = newDoc.nav[catIndex].pages.map(page => {
-    //       return {doc: [], ...page}
-    //     })
-    //   }
-    // })
-    // updateDocumentation(newDoc);
+    let keys = Object.keys(values);
+
+    keys.forEach((key, catIndex) => {
+      if (newDocs[catIndex]) {
+        newDocs[catIndex].pages = values[catIndex].map((title, i) => {
+          return {
+            title,
+            doc: (docs[catIndex] && docs[catIndex].pages && docs[catIndex].pages[i] && docs[catIndex].pages[i].doc) || []
+          }
+        });
+      }
+    })
+
+    console.log("newDocs", newDocs);
+
+    updateDocumentation(newDocs);
 
     this.props.sendNotification({
       message: "Modification saved about « Navigation »",
       options: {
-        variant: 'default',
+        variant: 'success',
       },
     });
   }
@@ -106,7 +108,7 @@ class Edit extends React.Component {
     this.props.sendNotification({
       message: "Rename « " + oldName + " » to « " + name + " »",
       options: {
-        variant: 'default',
+        variant: 'success',
       },
     });
   }
@@ -139,24 +141,19 @@ class Edit extends React.Component {
     if (!documentation) return null
     const {docs, doc} = getDocIndex(this.props);
 
-    let navSplit = {};
+    let pages = {};
+
+    console.log("",);
+
     docs.forEach((navItem, i) => {
-      navSplit["nav" + i] = navItem.pages
+      pages[i] = navItem.pages && navItem.pages.map(page => page.title)
     })
 
     let initialValues, submitAction, subfieldsDescription, emptyAddText;
 
     if (editDrawer) {
-      initialValues = {};
-      emptyAddText = "Add page";
+      initialValues = {...pages};
       submitAction = (values) => this.submitNav(values)
-      subfieldsDescription = [{
-        title: "Title", name: "title", multiline: true, typeField: 'textfield',
-      }, {
-        title: "Ref (can be null)",
-        name: "id"
-        , typeField: 'textfield',
-      }]
     } else {
       initialValues = {doc};
       submitAction = (values) => this.submitDoc(values);
@@ -227,7 +224,7 @@ class Edit extends React.Component {
       >
         {({values, resetForm, submitForm}) => (
           <Form>
-            <div className={classNames(classes.mtxxxxl, classes.mbs)}>
+            <div className={classNames(classes.mtxxxxl, classes.mbmd)}>
               <Tooltip
                 title={"In this mode you can edit" + (editDrawer ? " the left navigation drawer" : " all the documentation")}
                 placement="right">
@@ -274,17 +271,11 @@ class Edit extends React.Component {
                   </IconButton>
                 </Tooltip>
               </Typography>
-              <ObjectField field={{
+              <ArrayField field={{
                 noBorder: true,
-                subfields: [{
-                  title: "Title", name: "titlePage", multiline: true, typeField: "textfield"
-                }, {
-                  title: "Ref (can be null)",
-                  name: "id", typeField: "textfield"
-                }],
-                path: ["nav" + catIndex],
+                path: [catIndex],
                 emptyAddText: "Add page to " + cat.titleSection,
-                value: values["nav" + catIndex]
+                value: values[catIndex]
               }}/>
             </Paper>)}
             <ActionButton
