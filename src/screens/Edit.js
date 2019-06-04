@@ -59,6 +59,39 @@ class Edit extends React.Component {
     });
   };
 
+
+  submitNav = (values) => {
+    const {updateDocumentation} = this.props;
+
+    console.log("values", values);
+
+    // let newDoc = {...documentation, quickNav: values.quickNav};
+    // newDoc.quickNav = newDoc.quickNav.map(item => {
+    //   return {doc: [], ...item}
+    // })
+    //
+    // let keys = Object.keys(values)
+    // keys.splice(Object.keys(values).indexOf("quickNav"), 1);
+    //
+    // keys.forEach((key, catIndex) => {
+    //   if (newDoc.nav[catIndex]) {
+    //     newDoc.nav[catIndex].pages = values["nav" + catIndex]
+    //     newDoc.nav[catIndex].pages = newDoc.nav[catIndex].pages.map(page => {
+    //       return {doc: [], ...page}
+    //     })
+    //   }
+    // })
+    // updateDocumentation(newDoc);
+
+    this.props.sendNotification({
+      message: "Modification saved about « Navigation »",
+      options: {
+        variant: 'default',
+      },
+    });
+  }
+
+
   renderEdit = () => {
     const {classes, documentation} = this.props;
     let {editDrawer, openPrompt} = this.state;
@@ -66,6 +99,10 @@ class Edit extends React.Component {
     if (!documentation) return null
     const {docs, doc} = getDocIndex(this.props);
 
+    let navSplit = {};
+    docs.forEach((navItem, i) => {
+      navSplit["nav" + i] = navItem.pages
+    })
 
     let initialValues, submitAction, subfieldsDescription, emptyAddText;
 
