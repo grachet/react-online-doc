@@ -1,5 +1,5 @@
 import {FETCH_DOCUMENTATION,} from './action.types'
-import * as firebase from "firebase";
+import firebase from 'firebase/app';
 
 import {documentationRef} from "../../config/firebase";
 

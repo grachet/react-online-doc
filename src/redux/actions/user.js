@@ -6,7 +6,8 @@ import {
   GoogleProvider,
   usersRef
 } from "../../config/firebase";
-import * as firebase from "firebase";
+
+import firebase from 'firebase/app';
 
 
 export function toggleTheme() {
