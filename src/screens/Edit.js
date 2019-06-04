@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Navigation from "../containers/Navigation";
 import Drawer from "../components/Drawer";
 import {fetchDocumentation, removeDocumentation, updateDocumentation} from "../redux/actions/documentation";
+import {sendNotification} from "../redux/actions/notifications";
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
 import {Typography, withStyles} from "@material-ui/core";
@@ -38,6 +39,25 @@ class Edit extends React.Component {
     this.setState(state => ({open: !state.open}));
   };
 
+  submitDoc = (values) => {
+
+    const {docs, si, pi, doc} = getDocIndex(this.props);
+
+    const {updateDocumentation} = this.props;
+
+    let newDoc = {...docs};
+
+    newDoc[si].pages[pi].doc = values.doc;
+
+    updateDocumentation(newDoc);
+
+    this.props.sendNotification({
+      message: "Modification saved about « " + this.props.match.params.id + " »",
+      options: {
+        variant: 'default',
+      },
+    });
+  };
 
   renderEdit = () => {
     const {classes, documentation} = this.props;
@@ -62,7 +82,7 @@ class Edit extends React.Component {
       }]
     } else {
       initialValues = {doc};
-      submitAction = (values) => console.log(values);
+      submitAction = (values) => this.submitDoc(values);
       emptyAddText = "Add paragraph";
       subfieldsDescription = [{
         title: "Title", name: "title", multiline: true, typeField: 'textfield',
@@ -130,7 +150,7 @@ class Edit extends React.Component {
       >
         {({values, resetForm, submitForm}) => (
           <Form>
-            <div className={classNames(classes.mtxxxxl,classes.mbs)}>
+            <div className={classNames(classes.mtxxxxl, classes.mbs)}>
               <Tooltip
                 title={"In this mode you can edit" + (editDrawer ? " the left navigation drawer" : " all the documentation")}
                 placement="right">
@@ -205,7 +225,7 @@ class Edit extends React.Component {
                 },
                 {
                   icon: editDrawer ? <TextIcon/> : <ListIcon/>,
-                  name: editDrawer ? "Edit documentation" : 'Edit drawer navigation',
+                  name: editDrawer ? "Edit documentation" : 'Edit categories',
                   action: () => this.setState(state => ({editDrawer: !state.editDrawer}))
                 }
               ]
@@ -265,7 +285,7 @@ const mapStateToProps = ({user, documentation, users}) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchDocumentation, updateDocumentation, removeDocumentation
+  fetchDocumentation, updateDocumentation, removeDocumentation, sendNotification
 }, dispatch);
 
 export default withRouter(withStyles(styles, {withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(Edit)));

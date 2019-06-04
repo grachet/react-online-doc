@@ -16,8 +16,20 @@ export const fetchDocumentation = () => async dispatch => {
   });
 };
 
-export const updateDocumentation = (documentation) => async dispatch => {
-  firebase.database().ref('documentation').set(documentation);
+export const updateDocumentation = (docs) => async (dispatch, getState) => {
+
+  const {user, documentation} = getState();
+
+
+
+  let newDoc = [...documentation, {
+    creationTimestamp: new Date(),
+    owner: user.displayName,
+    documentation: docs
+  }]
+
+  console.log("newDoc", newDoc);
+  firebase.database().ref('documentation').set(newDoc);
 };
 
 

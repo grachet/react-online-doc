@@ -7,11 +7,13 @@ import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {connect} from 'react-redux';
 import {fetchUser, fetchUsers} from "../redux/actions/user";
 import {bindActionCreators} from "redux";
+import {SnackbarProvider} from 'notistack';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {fetchDocumentation} from "../redux/actions/documentation";
 import {color} from '../data/color'
 import requireAuth from "../containers/requireAuth";
 import SignIn from "../containers/SignIn"
+import Notifier from "../containers/Notifier"
 
 class App extends Component {
 
@@ -50,17 +52,27 @@ class App extends Component {
             },
           },
         })}>
-        <CssBaseline/>
-        <Router basename={`${process.env.PUBLIC_URL}/`}>
-          <Switch>
+        <SnackbarProvider maxSnack={3} dense
+          // action={
+          //   <IconButton size="small">
+          //     <CloseIcon/>
+          //   </IconButton>
+          // }
+        >
+          <CssBaseline/>
 
-            <Route path="/auth" component={SignIn}/>
-            <Route exact path='/edit' component={requireAuth(Edit)}/>
-            <Route  path='/edit/:sid/:id' component={requireAuth(Edit)}/>
-            <Route  path="/:sid/:id" component={Home}/>
-            <Route component={Home}/>
-          </Switch>
-        </Router>
+          <Notifier/>
+          <Router basename={`${process.env.PUBLIC_URL}/`}>
+            <Switch>
+
+              <Route path="/auth" component={SignIn}/>
+              <Route exact path='/edit' component={requireAuth(Edit)}/>
+              <Route path='/edit/:sid/:id' component={requireAuth(Edit)}/>
+              <Route path="/:sid/:id" component={Home}/>
+              <Route component={Home}/>
+            </Switch>
+          </Router>
+        </SnackbarProvider>
       </MuiThemeProvider>
     );
   }
