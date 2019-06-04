@@ -93,18 +93,22 @@ class Edit extends React.Component {
   }
 
   renameSection = (values) => {
-    // let name = values.titleSection;
-    // const {documentation, updateDocumentation} = this.props;
-    // let oldName = documentation.nav[this.state.sectionIndexRename].titleSection
-    // let newDoc = {...documentation};
-    // newDoc.nav[this.state.sectionIndexRename].titleSection = name;
-    // updateDocumentation(newDoc);
-    // this.props.sendNotification({
-    //   message: "Rename « " + oldName + " » to « " + name + " »",
-    //   options: {
-    //     variant: 'default',
-    //   },
-    // });
+    let name = values.titleSection;
+    const {updateDocumentation} = this.props;
+
+    const {docs} = getDocIndex(this.props);
+    let newDocs = [...docs];
+
+    let oldName = docs[this.state.sectionIndexRename].titleSection;
+
+    newDocs[this.state.sectionIndexRename].titleSection = name;
+    updateDocumentation(newDocs);
+    this.props.sendNotification({
+      message: "Rename « " + oldName + " » to « " + name + " »",
+      options: {
+        variant: 'default',
+      },
+    });
   }
 
   addSection = (values) => {
@@ -256,9 +260,9 @@ class Edit extends React.Component {
             }}/>}
 
 
-            {editDrawer && documentation.map((cat, catIndex) => <Paper key={catIndex}
-                                                                       className={classes.pl + " " + classes.mbmd}
-                                                                       elevation={1}>
+            {editDrawer && docs.map((cat, catIndex) => <Paper key={catIndex}
+                                                              className={classes.pl + " " + classes.mbmd}
+                                                              elevation={1}>
               <Typography variant="h5" className={classes.mbmd}
                           color="textSecondary">{cat.titleSection}
                 <Tooltip title={"Edit section name"}>
