@@ -31,6 +31,8 @@ class MenuAppBar extends React.Component {
   render() {
     const {classes, documentation, user, open, toggleDrawer} = this.props;
 
+    const {sid, id} = this.props.match.params;
+
     const {docs} = getDocIndex(this.props);
 
     let withIfEdit = this.props.match.url.indexOf("/edit") === 0 ? "/edit/" : "/";
@@ -41,8 +43,6 @@ class MenuAppBar extends React.Component {
         pageSuggestData.push({label: page.title, value: withIfEdit + cat.titleSection + "/" + page.title})
       })
     })
-
-    console.log("pageSuggestData", pageSuggestData);
 
     return (
 
@@ -60,7 +60,7 @@ class MenuAppBar extends React.Component {
           </IconButton>
           <IconButton
             color="inherit"
-            onClick={() => this.props.history.push("/")}
+            onClick={() => this.props.history.push("/" + sid + "/" + id)}
           >
             <LibIcon/>
           </IconButton>
@@ -79,7 +79,7 @@ class MenuAppBar extends React.Component {
 
 
           <Typography variant="title" color="inherit" className={classes.title}>
-            {this.props.match.params.id}
+            {this.props.match.params.id === "undefined" ? "Doc" : this.props.match.params.id}
           </Typography>
 
 
@@ -103,7 +103,7 @@ class MenuAppBar extends React.Component {
           </IconButton>
 
           <IconButton
-            to={"/edit"}
+            to={"/edit/" + sid + "/" + id}
             component={Link}
             color="inherit"
           >

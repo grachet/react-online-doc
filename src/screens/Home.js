@@ -40,7 +40,7 @@ class Home extends React.Component {
                                                                 }}
                                                                 expanded={this.state.expandedDoc[panel.title + index]}>
           <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
-            <Typography className={classes.heading}>{panel.title}</Typography>
+            <Typography variant={"h5"} className={classes.heading}>{panel.title}</Typography>
             <Typography className={classes.secondaryHeading}>{panel.secondTitle}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>

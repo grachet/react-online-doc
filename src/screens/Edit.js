@@ -67,7 +67,6 @@ class Edit extends React.Component {
     const {docs} = getDocIndex(this.props);
     let newDocs = [...docs];
 
-    console.log("values", values);
 
     let keys = Object.keys(values);
 
@@ -82,7 +81,6 @@ class Edit extends React.Component {
       }
     })
 
-    console.log("newDocs", newDocs);
 
     updateDocumentation(newDocs);
 
@@ -138,12 +136,13 @@ class Edit extends React.Component {
     const {classes, documentation} = this.props;
     let {editDrawer, openPrompt} = this.state;
 
+    const {sid, id} = this.props.match.params;
+
     if (!documentation) return null
     const {docs, doc} = getDocIndex(this.props);
 
     let pages = {};
 
-    console.log("",);
 
     docs.forEach((navItem, i) => {
       pages[i] = navItem.pages && navItem.pages.map(page => page.title)
@@ -253,7 +252,7 @@ class Edit extends React.Component {
               subfields: subfieldsDescription,
               path: ["doc"],
               emptyAddText,
-              value: values.doc
+              value: values.doc || []
             }}/>}
 
 
@@ -284,7 +283,7 @@ class Edit extends React.Component {
                 {
                   icon: <ReturnIcon/>,
                   name: 'Stop editing',
-                  action: () => this.props.history.push("/")
+                  action: () => this.props.history.push("/" + sid + "/" + id)
                 },
                 {
                   icon: <UndoIcon/>,

@@ -8,7 +8,7 @@ export const getDocIndex = (props) => {
     if (section.titleSection === sid) {
       section.pages && section.pages.map((page, pi) => {
         if (page.title === id) {
-          result = {docs, si, pi, doc: page.doc}
+          result = {docs, si, pi, doc: page.doc || []}
         }
       })
     }
