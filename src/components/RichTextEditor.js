@@ -2,7 +2,7 @@ import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import styles from './styles/formStyle';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import './styles/richEditor.css';
 import {Field} from "formik";
 import Typography from "@material-ui/core/Typography/Typography";
 import {hint} from "./FormikFieldGenerator"
@@ -35,7 +35,7 @@ class RichTextEditor extends React.Component {
     if (!path) return null
 
     return (
-      <div key={key} className={classNames(classes.flexGrow, classes.mymd)}>
+      <div key={key} style={{backgroundColor: "white"}} className={classNames(classes.flexGrow, classes.mymd)}>
         {title &&
         <Typography variant="body2"
                     color="textSecondary">{field.title}
