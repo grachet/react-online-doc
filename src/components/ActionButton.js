@@ -9,8 +9,6 @@ import CloseIcon from "@material-ui/icons/ArrowBack";
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 import Fab from '@material-ui/core/Fab';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-import AddIcon from '@material-ui/icons/Add';
-import Typography from "@material-ui/core/Typography";
 
 class SpeedDialTooltipOpen extends React.Component {
   state = {

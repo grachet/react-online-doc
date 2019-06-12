@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {Link, withRouter} from "react-router-dom";
 import LightIcon from '@material-ui/icons/Opacity';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import LibIcon from '@material-ui/icons/Book';
+import SeeIcon from '@material-ui/icons/RemoveRedEye';
 import EditIcon from '@material-ui/icons/Edit';
 import PropTypes from 'prop-types';
 import SearchIcon from '@material-ui/icons/Search';
@@ -58,12 +58,10 @@ class MenuAppBar extends React.Component {
           >
             {open ? <CloseMenuIcon/> : <MenuIcon/>}
           </IconButton>
-          <IconButton
-            color="inherit"
-            onClick={() => this.props.history.push("/" + sid + "/" + id)}
-          >
-            <LibIcon/>
-          </IconButton>
+
+          <img height={50} style={{marginRight: 8}}
+               src={process.env.PUBLIC_URL + ((this.props.user && this.props.user.darkTheme) ? "/DocMe_Logo_b.png" : "/DocMe_Logo_bf.png")}
+               alt=""/>
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -83,14 +81,14 @@ class MenuAppBar extends React.Component {
           </Typography>
 
 
-          {user && <Typography key={1} variant="subheading" color="inherit">
-            {user.isAnonymous ? "Anonymous" : user.displayName}
+          {<Typography key={1} variant="subheading" color="inherit">
+            {(user && user !== "notConnected") ? (user.isAnonymous ? "Anonymous" : user.displayName) : "Log In"}
           </Typography>}
 
           <IconButton
             key={2}
             color="inherit"
-            onClick={() => user && user.displayName ? this.setState({openAlert: true}) : this.props.history.push("/auth")}
+            onClick={() => user && (user.displayName || user.isAnonymous) ? this.setState({openAlert: true}) : this.props.history.push("/auth")}
           >
             <AccountCircle/>
           </IconButton>
@@ -102,13 +100,20 @@ class MenuAppBar extends React.Component {
             <LightIcon/>
           </IconButton>
 
-          <IconButton
-            to={"/edit/" + sid + "/" + id}
-            component={Link}
-            color="inherit"
-          >
-            <EditIcon/>
-          </IconButton>
+
+          {
+            this.props.match.url.indexOf("/edit") === 0 ? <IconButton
+              color="inherit"
+              onClick={() => this.props.history.push("/" + sid + "/" + id)}
+            >
+              <SeeIcon/>
+            </IconButton> : <IconButton
+              to={"/edit/" + sid + "/" + id}
+              component={Link}
+              color="inherit"
+            >
+              <EditIcon/>
+            </IconButton>}
 
         </Toolbar>
         <AlertDialogue

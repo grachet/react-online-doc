@@ -38,17 +38,17 @@ class App extends Component {
           palette: (this.props.user && this.props.user.darkTheme) ? {
             type: 'dark',
             primary: {
-              main: color.accent,
+              main: "#015bab",
             },
             secondary: {
-              main: color.accent,
+              main: "#0182E8",
             },
           } : {
             primary: {
-              main: color.containerBackground,
+              main: "#0182E8",
             },
             secondary: {
-              main: color.accent,
+              main: "#015bab",
             },
           },
         })}>

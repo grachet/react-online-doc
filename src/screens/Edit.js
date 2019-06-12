@@ -278,13 +278,14 @@ class Edit extends React.Component {
               }}/>
             </Paper>)}
             <ActionButton
+              mainAction={{icon:<EditIcon/>}}
               actions={[
                 {icon: <SaveIcon/>, name: 'Save fields', action: () => submitForm()},
-                {
-                  icon: <ReturnIcon/>,
-                  name: 'Stop editing',
-                  action: () => this.props.history.push("/" + sid + "/" + id)
-                },
+                // {
+                //   icon: <ReturnIcon/>,
+                //   name: 'Stop editing',
+                //   action: () => this.props.history.push("/" + sid + "/" + id)
+                // },
                 {
                   icon: <UndoIcon/>,
                   name: 'Undo',
