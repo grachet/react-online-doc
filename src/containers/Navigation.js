@@ -20,6 +20,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import CloseMenuIcon from "@material-ui/icons/ArrowBack";
 import SuggestField from "../components/SuggestField"
 import {getDocIndex} from "../data/helperFunctions";
+import logo from "../DocMe_logo_b.png";
+import logoF from "../DocMe_logo_bf.png";
 
 
 class MenuAppBar extends React.Component {
@@ -60,7 +62,7 @@ class MenuAppBar extends React.Component {
           </IconButton>
 
           <img height={50} style={{marginRight: 8}}
-               src={process.env.PUBLIC_URL + ((this.props.user && this.props.user.darkTheme) ? "/DocMe_Logo_b.png" : "/DocMe_Logo_bf.png")}
+               src={(this.props.user && this.props.user.darkTheme) ? logo : logoF}
                alt=""/>
 
           <div className={classes.search}>

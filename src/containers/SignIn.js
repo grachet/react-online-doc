@@ -10,6 +10,8 @@ import Button from "@material-ui/core/Button/Button";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AppBar from '@material-ui/core/AppBar';
 import HomeIcon from '@material-ui/icons/Home'
+import logoF from "../DocMe_logo_bf.png"
+import logo from "../DocMe_logo_b.png"
 
 
 class Signin extends Component {
@@ -29,7 +31,7 @@ class Signin extends Component {
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <img height={50} style={{marginRight: 8}}
-                 src={process.env.PUBLIC_URL + ((this.props.user && this.props.user.darkTheme) ? "/DocMe_Logo_b.png" : "/DocMe_Logo_bf.png")}
+                 src={(this.props.user && this.props.user.darkTheme) ? logo : logoF}
                  alt=""/>
             <Typography variant={"h5"} className={classes.loginTitle} color="textPrimary">Login</Typography>
 

@@ -17,7 +17,7 @@ import {getDocIndex} from "../data/helperFunctions";
 class Home extends React.Component {
   state = {
     open: true,
-    expandedDoc: {}
+    closedDoc: {}
   };
 
   toggleDrawer = () => {
@@ -29,16 +29,11 @@ class Home extends React.Component {
     const {sid, id} = this.props.match.params;
     const {classes, documentation} = this.props;
 
-    if (!documentation) return null
+    if (!documentation) return null;
     const {doc} = getDocIndex(this.props);
     return (
       doc && doc.map((panel, index) => <ExpansionPanel key={index}
-                                                                onChange={() => panel => (event, expanded) => {
-                                                                  this.setState({
-                                                                    expandedDoc: expanded ? panel : false,
-                                                                  });
-                                                                }}
-                                                                expanded={this.state.expandedDoc[panel.title + index]}>
+                                                       defaultExpanded>
           <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
             <Typography variant={"h5"} className={classes.heading}>{panel.title}</Typography>
             <Typography className={classes.secondaryHeading}>{panel.secondTitle}</Typography>
